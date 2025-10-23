@@ -8,6 +8,7 @@
 
 ```
 \documentclass[options]{class}
+%class包含article、book、report，用中文文档类对应是ctexart、ctexbook、ctexrep
 ```
 
 <img title="" src="https://images2018.cnblogs.com/blog/137119/201803/137119-20180316110051760-1695326882.png" alt="Word字体大小对照换算表(字号、磅、英寸、像素)_word 字号转成pt-CSDN博客" width="388" data-align="center">
@@ -15,7 +16,7 @@
 要正确显示中文：选择XeLaTeX
 
 ```
-\usepackage[UTF8]{ctex} % 中文支持宏包
+\usepackage[UTF8]{ctex} % 中文支持宏包\newpage  % 换页
 ```
 
 标题、作者、日期、摘要**P20**
@@ -32,7 +33,7 @@
 \end{abstract}
 ```
 
-标题层次
+标题层次：article 中没有 chapter，而 report 和 book 则支持所有层次。
 
 ```
 \part{...} %Level -1
@@ -44,9 +45,16 @@
 \subparagraph{...} %Level 5
 ```
 
+```
+%标题设置技巧
+\part*{总纲}%加“*”会取消自带的编号，只出现“总纲”，但如果要添加进目录就要手动加
+```
+
 目录
 
 ```
 \setcounter{tocdepth}{2} %设 定 目 录 深 度
 \tableofcontents %列 出 目 录
+%手动添加目录
+\addcontentsline{〈文件〉}{〈层级〉}{〈标题文字〉}
 ```
