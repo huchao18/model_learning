@@ -1,5 +1,3 @@
-
-
 <h1 align="center">LaTex Learning</h1>
 
 ## 参考书籍：LATEX NOTES 雷太赫排版系统简介（第二版） (包太雷)
@@ -11,6 +9,8 @@
 ```
 \documentclass[options]{class}
 ```
+
+<img title="" src="https://images2018.cnblogs.com/blog/137119/201803/137119-20180316110051760-1695326882.png" alt="Word字体大小对照换算表(字号、磅、英寸、像素)_word 字号转成pt-CSDN博客" width="388" data-align="center">
 
 要正确显示中文：选择XeLaTeX
 
@@ -24,7 +24,8 @@
 \title{LaTeX Notes}%标题
 \author{Alpha Huang}%作者
 \date{\today}%日期
-\maketitle%另起一页
+%上面语句就在导言区
+\maketitle%另起标题页（在正文区）
 %摘要（book 里没有）
 \begin{abstract}
 ...
