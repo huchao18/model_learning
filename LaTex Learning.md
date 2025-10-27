@@ -319,6 +319,8 @@ paralist 宏包提供了一系列压缩列表和行间列表环境。
 
 # 4 数学
 
+**在线公式编辑器：[在线LaTeX公式编辑器-编辑器](https://www.latexlive.com/##)**
+
 为了加载数学功能，要加载amsmath 宏包。
 
 ```
@@ -329,7 +331,7 @@ paralist 宏包提供了一系列压缩列表和行间列表环境。
 
 LATEX 的数学模式有两种形式：行间 (inline) 模式和独立 (display) 模式。前者是指在正文中插入数学内容；后者独立排列，可以有或没有编号。
 
-行间公式用 \$...\$，无编号独立公式用\\[...\\]。建议不要用 $$...$$，因为它和 AMS‐LATEX 有冲突。
+行间公式用 \$...\$，无编号独立公式用\\[...\\]。建议不要用 $$...$$，因为它和 AMS‐LATEX 有冲突。**注意：带编号公式里面直接写入公式内容。**
 
 ```
 %行间公式
@@ -385,3 +387,140 @@ E = mc^2
 \dfrac{a}{b}
 \tfrac{a}{b}
 ```
+
+### 4.2.4 运算符
+
++、-、\*、/、=等可以直接输入，但是一些特殊的
+
+![](./images/2025-10-27-10-04-25-image.png)
+
+
+
+### 4.2.5 箭头
+
+![](./images/2025-10-27-10-06-59-image.png)
+
+### 4.2.6 注音和标注
+
+![](./images/2025-10-27-10-07-59-image.png)
+
+![](./images/2025-10-27-10-08-15-image.png)
+
+### 4.2.7 分隔符
+
+各种括号用 ()  []  \{\}  \langle \rangle 等命令表示。因为\\|和|使用随意，引入**amsmath** 宏包用 **\lvert\rvert**和 **\lVert\rVert** 取而代之。可以在上述分隔符前面加 \big \Big \bigg \Bigg 等命令来调整其大小。
+
+```
+\usepackage{amsmath}
+\[ \Bigg(\bigg(\Big(\big((x)\big)\Big)\bigg)\Bigg)\quad
+\Bigg[\bigg[\Big[\big[[x]\big]\Big]\bigg]\Bigg]\quad
+\Bigg\{\bigg\{\Big\{\big\{\{x\}\big\}\Big\}\bigg\}\Bigg\}
+\]\[
+\Bigg\langle\bigg\langle\Big\langle\big\langle\langle x
+\rangle\big\rangle\Big\rangle\bigg\rangle\Bigg\rangle\quad
+\Bigg\lvert\bigg\lvert\Big\lvert\big\lvert\lvert x
+\rvert\big\rvert\Big\rvert\bigg\rvert\Bigg\rvert\quad
+\Bigg\lVert\bigg\lVert\Big\lVert\big\lVert\lVert x
+\rVert\big\rVert\Big\rVert\bigg\rVert\Bigg\rVert \]
+```
+
+<img src="./images/2025-10-27-10-44-16-image.png" title="" alt="" width="436">
+
+### 4.2.8 省略号
+
+```
+%独立公式
+\[ x_1,x_2,\dots,x_n\quad 1,2,\cdots,n\quad
+\vdots\quad \ddots \]
+```
+
+![](./images/2025-10-27-10-30-14-image.png)
+
+### 4.2.9 空白间距
+
+![](./images/2025-10-27-10-31-03-image.png)
+
+## 4.3 矩阵
+
+公式编辑器
+
+## 4.4 多行公式
+
+### 4.4.1 长公式
+
+分为无需对齐长公式和对齐长公式
+
+```
+%无对齐公式（自带公式编号\begin{equation}）
+\begin{multline}
+x = a+b+c+{} \\
+d+e+f+g
+\end{multline}
+```
+
+```
+%对齐公式（公式编号需要引入\begin{equation}）
+\[ \begin{split}
+x ={} &a+b+c+{} \\
+&d+e+f+g
+\end{split} \]
+```
+
+![](./images/2025-10-27-10-41-39-image.png)
+
+### 4.4.2 公式组
+
+不需要对齐的公式组可以使用 **gather** 环境（见 例 4.16），需要对齐的公式组用 **align** 环境（见 例 4.17）。自带生成公式编号，如果需要取消在gather等后面加\*
+
+```
+%不需对齐公式组
+\begin{gather}
+a = b+c+d \\
+x = y+z
+\end{gather}
+```
+
+```
+%对齐公式组
+\begin{align}
+a &= b+c+d \\
+x &= y+z
+\end{align}
+```
+
+### 4.4.3 分支公式
+
+分段函数通常用 cases 次环境写成分支公式
+
+```
+\[ y=\begin{cases}
+-x,\quad x\leq 0 \\
+x,\quad x>0
+\end{cases} \]
+```
+
+![](./images/2025-10-27-11-27-48-image.png)
+
+## 4.5 定理和证明
+
+\newtheorem 命令可以用来定义定理之类的环境，其语法如下。
+
+语法：{环境名}[编号延续]{显示名}[编号层次]
+
+```
+%定义环境
+\newtheorem{definition}{定义}[section]
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+```
+
+然后可以使用环境：
+
+![](./images/2025-10-27-11-30-44-image.png)
+
+## 4.6 数学字体
+
+\mathbb 和 \mathfrak 需要 amsfonts 宏包，\mathscr 需要mathrsfs 宏包。
+
+![](./images/2025-10-27-11-32-03-image.png)
