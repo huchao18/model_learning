@@ -394,8 +394,6 @@ E = mc^2
 
 ![](./images/2025-10-27-10-04-25-image.png)
 
-
-
 ### 4.2.5 箭头
 
 ![](./images/2025-10-27-10-06-59-image.png)
@@ -524,3 +522,141 @@ x,\quad x>0
 \mathbb 和 \mathfrak 需要 amsfonts 宏包，\mathscr 需要mathrsfs 宏包。
 
 ![](./images/2025-10-27-11-32-03-image.png)
+
+# 5 插图
+
+## 5.1 图形预览
+
+### 5.1.1 图形格式
+
+LATEX 支持点阵图形格式 JPEG 和 PNG，也支持矢量格式 EPS 和 PDF 1。对于示意图，我们应该首选矢量格式；包含大量自然色彩的图像 (比如照片)应该选 JPEG；人工点阵图像应该选 PNG。
+
+### 5.1.2 driver驱动
+
+但 LaTeX 并不知道“怎么去读图像文件”，它需要一个“驱动程序 (driver)”来解析图片，这个 driver 取决于你用的 **编译方式**。
+
+### 5.1.3 图形优化
+
+- 使用 `xelatex` 或 `pdflatex`；
+
+- eps清晰度最高但文件较大，图像尽量使用 `.pdf` （文件大小适中、清晰度也够用）或 `.png`；图片转pdf网址：[JPG转换为PDF文件。JPG图片在线转换为PDF文件](https://www.ilovepdf.com/zh-cn/jpg_to_pdf)，图片转eps网址：[JPG到EPS转换器- FreeConvert.com](https://www.freeconvert.com/zh/jpg-to-eps)pdf转换后有空白，采用裁剪工具进行裁剪[Crop PDF files online](https://pdfresizer.com/crop)（能一键转为pdf和裁剪）
+
+- 避免 `.jpg` 压缩后的模糊边缘。
+
+### 5.1.4 图形转化和处理
+
+## 5.2 插入图形
+
+在正式开始下面的图片插入工作之前，需要注意以下几点：
+
+（1）将要使用的图片文件放在tex文件的同一个文件夹下，确保可以直接查找到文件。
+
+（2）图片命名中不要出现中文字符、不要空格和其他特殊符号，建议只用英文字母、下划线和简单符号。例如，本文中使用的两个图片文件名字分别为：“DV_demand.pdf”, "P+R_demand.pdf"。否则编译时容易出现“找不到文件”，或者其他奇怪的错误。
+
+（3）上面提到的图片格式中：编译png, pdf, jpg用 pdfLaTex，编译eps 用XeLaTex。
+
+（4）若图片格式不是以上四种，或者图片中空白边缘过多，可以用PS进行处理并转存为以上四种格式之一。
+
+### 5.2.1 范围框
+
+pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较晚，有机会了解这些图形格式。
+
+### 5.2.2 基本命令
+
+```
+%加载图形宏包 graphicx
+\usepackage{graphicx}
+%插入图片并手动指定其边界框
+\includegraphics[bb=0 0 300 200]{fig.png}
+```
+
+### 5.2.3 图形操作
+
+\includegraphics 命令有一些参数选项可以用于缩放、旋转、裁剪等图形操作。
+
+![](./images/2025-10-27-19-59-17-image.png)
+
+### 5.2.4 文件路径
+
+没啥意义，少敲后缀
+
+### 5.2.5 figure环境
+
+插图通常需要占据大块空间，所以在文字处理软件中用户经常需要调整插图的位置。figure 环境可以自动完成这样的任务；这种自动调整位置的环境称作浮动环境 (float)。
+
+**htbp** 选项用来指定插图的理想位置，这几个字母分别代表 **here**, **top**, **bottom**, **float page**，也就是就这里、页顶、页尾、浮动页 (专门放浮动环境的单独页面) 。**可以使用这几个字母的任意组合，一般不单独使用h**。
+
+```
+\begin{figure}[htbp]%图片竖直位置
+\centering%居中
+\includegraphics{myphoto.jpg}
+\caption{有图有真相}%图注
+\label{fig:myphoto}
+\end{figure}
+```
+
+公式、图、表的自定义编号：第一步按照标题层次编号，然后自定义编号的样式
+
+```
+%公式自定义编号
+\numberwithin{equation}{section} % 按 section 编号
+\renewcommand{\theequation}{\thesection-\arabic{equation}}
+%图自定义编号
+\numberwithin{figure}{section} % 按 section 编号
+\renewcommand{\thefigure}{\thesection-\arabic{figure}} % 自定义格式
+%表自定义编号
+\numberwithin{table}{section}
+\renewcommand{\thetable}{\thesection-\arabic{table}}
+```
+
+### 5.2.6 多幅图形
+
+#### 并排摆放，共享标题
+
+使用两个 \includegraphics 命令
+
+```
+\begin{figure}[htbp]
+2 \centering
+\includegraphics{left.pdf}
+4 \includegraphics{right.pdf}
+\caption{反清复明}
+6 \end{figure}
+```
+
+#### 并排摆放，各有标题
+
+可以在 figure 环境中使用两个 minipage 环境，相当于figure环境下嵌套minipage~~~~
+
+```
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{60pt}
+\centering
+\includegraphics{left.pdf}
+\caption{清明}
+\end{minipage}
+\hspace{10pt}%在两个图形插入10pt间距；使用\hfill能自动分割
+\begin{minipage}{60pt}
+\centering
+\includegraphics{right.pdf}
+\caption{反复}
+\end{minipage}
+\end{figure}
+```
+
+出现问题：图注字数多会换行，这与minipage设置太小有关；图注不水平对齐，这与图片高度不同和 minipage 对齐基线的方式有关
+
+```
+%minipage用法
+\begin{minipage}[<位置对齐>][<总高度>][<内部对齐>]{<宽度>}
+  ...内容...
+\end{minipage}
+```
+
+| 参数         | 是否可选 | 含义                                 | 说明                                                                                       |
+| ---------- | ---- | ---------------------------------- | ---------------------------------------------------------------------------------------- |
+| `[<位置对齐>]` | ✅ 可选 | 指明当前 `minipage` **相对于其他对象的垂直对齐方式** | 常用：`t`（top，上对齐）、`c`（center，居中对齐）、`b`（bottom，下对齐）                                         |
+| `[<总高度>]`  | ✅ 可选 | 指定整个 `minipage` 的**总高度**           | 很少使用，除非需要精确对齐（例如固定高度的表格）                                                                 |
+| `[<内部对齐>]` | ✅ 可选 | 控制 `minipage` 内部文本的基线位置            | 可用 `t`、`c`、`b`，但使用场景较少                                                                   |
+| `{<宽度>}`   | ✅ 必填 | 该 `minipage` 的宽度                   | 可以用绝对单位（如 `60pt`, `3cm`），或相对单位（如 `0.45\textwidth（正文宽度*0.45）`, `\linewidth（当前环境的可用文字宽度）`） |
