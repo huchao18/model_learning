@@ -319,7 +319,7 @@ paralist 宏包提供了一系列压缩列表和行间列表环境。
 
 # 4 数学
 
-**在线公式编辑器：[在线LaTeX公式编辑器-编辑器](https://www.latexlive.com/##)**
+**在线公式编辑器：[在线LaTeX公式编辑器](https://www.latexlive.com/##)**
 
 为了加载数学功能，要加载amsmath 宏包。
 
@@ -539,7 +539,7 @@ LATEX 支持点阵图形格式 JPEG 和 PNG，也支持矢量格式 EPS 和 PDF 
 
 - 使用 `xelatex` 或 `pdflatex`；
 
-- eps清晰度最高但文件较大，图像尽量使用 `.pdf` （文件大小适中、清晰度也够用）或 `.png`；图片转pdf网址：[JPG转换为PDF文件。JPG图片在线转换为PDF文件](https://www.ilovepdf.com/zh-cn/jpg_to_pdf)，图片转eps网址：[JPG到EPS转换器- FreeConvert.com](https://www.freeconvert.com/zh/jpg-to-eps)pdf转换后有空白，采用裁剪工具进行裁剪[Crop PDF files online](https://pdfresizer.com/crop)（能一键转为pdf和裁剪）
+- eps清晰度最高但文件较大，图像尽量使用 `.pdf` （文件大小适中、清晰度也够用）或 `.png`；[JPG图片在线转换为PDF文件](https://www.ilovepdf.com/zh-cn/jpg_to_pdf)，[JPG到EPS转换器](https://www.freeconvert.com/zh/jpg-to-eps)，pdf转换后有空白，采用裁剪工具进行裁剪[pdf裁剪在线](https://pdfresizer.com/crop)
 
 - 避免 `.jpg` 压缩后的模糊边缘。
 
@@ -595,7 +595,7 @@ pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较
 \end{figure}
 ```
 
-公式、图、表的自定义编号：第一步按照标题层次编号，然后自定义编号的样式
+**公式、图、表的自定义编号：第一步按照标题层次编号，然后自定义编号的样式**
 
 ```
 %公式自定义编号
@@ -607,6 +607,13 @@ pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较
 %表自定义编号
 \numberwithin{table}{section}
 \renewcommand{\thetable}{\thesection-\arabic{table}}
+```
+
+调整编号类型，以表格为例子：labelformat控制标签（编号）显示的格式，default 是默认设置，它会使用标准的编号格式，通常会显示表格编号或图像编号后跟一个冒号，你可以根据需要将其设置为其他选项，如 parens（括号格式）等。`labelsep` 控制标签与标题文本之间的分隔符，其他常用的 `labelsep` 选项包括：`colon`插入冒号。`period`插入句号。`none不插入任何分隔符。
+
+```
+ \usepackage{caption}  % 需要添加这个宏包用于引用
+ \captionsetup[table]{labelformat=default, labelsep=space}
 ```
 
 ### 5.2.6 多幅图形
@@ -660,3 +667,143 @@ pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较
 | `[<总高度>]`  | ✅ 可选 | 指定整个 `minipage` 的**总高度**           | 很少使用，除非需要精确对齐（例如固定高度的表格）                                                                 |
 | `[<内部对齐>]` | ✅ 可选 | 控制 `minipage` 内部文本的基线位置            | 可用 `t`、`c`、`b`，但使用场景较少                                                                   |
 | `{<宽度>}`   | ✅ 必填 | 该 `minipage` 的宽度                   | 可以用绝对单位（如 `60pt`, `3cm`），或相对单位（如 `0.45\textwidth（正文宽度*0.45）`, `\linewidth（当前环境的可用文字宽度）`） |
+
+#### 并排摆放，共享标题，各有子标题
+
+```
+\usepackage{subcaption}
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[t]{0.45\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{left.pdf}
+  \caption{左脚清明}
+  \label{fig:left}%加入引用标签
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.45\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{right.pdf}
+  \caption{右脚反复}
+  \label{fig:right}
+\end{subfigure}
+\caption{反清复明（左右脚对比）}
+\label{fig:overall}
+\end{figure}
+```
+
+# 第6、7、8进行的是绘图讲解
+
+# 9 表格
+
+## 9.1 简单表格
+
+tabular 环境提供了最简单的表格功能。它用 \hline 命令表示横线，| 表示竖线；用 & 来分列，用 \\ 来换行；每列可以采用居左、居中、居右等横向对齐方式，分别用 l, c, r 来表示。
+
+```
+\begin{tabular}{|l|c|r|}%这里表示三列，每列用|分开，l，c，r表示每列单元格的对齐方式
+\hline
+操作系统 & 发行版 & 编辑器 \\
+\hline
+Windows & MikTeX & TeXnicCenter \\
+\hline
+Unix/Linux & teTeX & Kile \\
+\hline
+macOS & MacTeX & TeXShop \\
+\hline
+跨平台 & TeX Live & TeXworks \\
+\hline
+\end{tabular}
+```
+
+![](./images/2025-10-28-14-20-38-image.png)
+
+创建三线表：tabular 环境中的行可以采用居顶、居中、居底等纵向对齐方式，分别用 t, c, b 来表示，缺省的是居中对齐。列之间的分隔符也可以改用其他符号，比如用 || 来画双竖线（列与列之间的分割）。
+
+t表示表格的**上边缘**会对齐到文字的**上方**。比如“文字1  [表格]  文字2”，表格可能比一行文字高（因为它有几行），这里设置的就是表格与外部文字的对齐方式
+
+语法：[纵向对齐]{横向对齐和分隔符}。
+
+\caption放在大环境内，表格环境外，然后放的位置在表格哪里最后表注就是在哪里。
+
+```
+\usepackage{booktabs}%引入宏包
+\begin{table}[htbp]
+\caption{操作系统}
+\label{表哈哈哈}
+\centering
+\begin{tabular}{lll} %每列的对齐方式，左对齐
+\toprule %三线表的上横线
+操作系统 & 发行版 & 编辑器 \\
+\midrule % 中横线
+Windows & MikTeX & TexMakerX \\
+Unix/Linux & teTeX & Kile \\
+macOS & MacTeX & TeXShop \\
+跨平台 & TeX Live & TeXworks \\
+\bottomrule%最底横线
+\end{tabular}
+\end{table}
+```
+
+![](./images/2025-10-29-20-03-42-image.png)
+
+## 9.2 宽度控制
+
+有时我们需要控制某列的宽度，可以将其对齐方式参数从 l, c, r 改为 p{宽度}。
+
+```
+\begin{tabular}{p{80pt}p{80pt}p{80pt}}
+```
+
+这时对齐方式缺省(默认左对齐),用前置命令\>{} 配合 \centering, \raggedleft 命令来把横向对齐方式改成居中或居右，`\arraybackslash` → 让 `\\` 不出错
+
+```
+\begin{tabular}{p{80pt}>{\centering}p{80pt}>{\raggedleft\arraybackslash}p{80pt}}
+```
+
+## 9.3 跨行跨列
+
+语法：\multicolumn{横跨列数}{对齐方式}{内容}
+
+语法：\cmidrule{起始列-结束列}
+
+```
+\usepackage{booktabs}
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lll}
+\toprule
+& \multicolumn{2}{c}{常用工具} \\ 
+\cmidrule{2-3}
+操作系统 & 发行版 & 编辑器 \\
+\midrule
+Windows & MikTeX & TexMakerX \\
+Unix/Linux & teTeX & Kile \\
+macOS & MacTeX & TeXShop \\
+跨平台 & TeX Live & TeXworks \\
+\bottomrule
+\end{tabular}
+\end{table}
+```
+
+![](./images/2025-10-29-20-55-27-image.png)
+
+## 9.4 数字表格
+
+语法：P{-m.n}其中 m 和 n 分别是小数点前后的位数，数字前负号可选
+
+```
+\usepackage{warpcol}
+
+```
+
+## 9.5 长表格
+
+有时表格太长要跨页
+
+## 9.6 宽表格
+
+把表格方向换一下
+
+## 9.7 彩色表格
