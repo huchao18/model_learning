@@ -6,7 +6,7 @@
 
 文档类声明**P19**：options能确定“正文字号、纸张尺寸、标题后另起新页、栏数、横向打印、章节起始页（奇数、偶数、任意页）、草稿模式等”
 
-```
+```latex
 \documentclass[options]{class}
 %class包含article、book、report，用中文文档类对应是ctexart、ctexbook、ctexrep
 ```
@@ -15,13 +15,13 @@
 
 要正确显示中文：选择XeLaTeX
 
-```
+```latex
 \usepackage[UTF8]{ctex} % 中文支持宏包\newpage  % 换页
 ```
 
 标题、作者、日期、摘要**P20**
 
-```
+```latex
 \title{LaTeX Notes}%标题
 \author{Alpha Huang}%作者
 \date{\today}%日期
@@ -35,7 +35,7 @@
 
 标题层次：article 中没有 chapter，而 report 和 book 则支持所有层次。
 
-```
+```latex
 \part{...} %Level -1
 \chapter{...} %Level 0
 \section{...} %Level 1
@@ -45,14 +45,14 @@
 \subparagraph{...} %Level 5
 ```
 
-```
+```latex
 %标题设置技巧
 \part*{总纲}%加“*”会取消自带的编号，只出现“总纲”，但如果要添加进目录就要手动加
 ```
 
 目录
 
-```
+```latex
 \setcounter{tocdepth}{2} %设 定 目 录 深 度
 \tableofcontents %列 出 目 录
 %手动添加目录
@@ -71,7 +71,7 @@
 
 字体强调命令：
 
-```
+```latex
 \usepackage{ulem}%导入包
 \emph{emphasis}%与周围字体正/斜体相反
 \uline{underline}%下划线
@@ -93,7 +93,7 @@
 
 ### 2.5.1段落对齐
 
-```
+```latex
 \begin{flushleft}
 居左\\段落
 \end{flushleft}
@@ -110,7 +110,7 @@
 
 ### 2.5.2 缩进和段落间距
 
-```
+```latex
 %在标准Latex每个章节、节标题之后的第一个段落默认不缩进，解决办法，引入indentfirst
 \usepackage{indentfirst}
 %控制缩进
@@ -129,14 +129,14 @@
 
 ① 原生命令：缺省默认是单倍行距，不仅会改变正文行距，同时也把目录、脚注、图表、标题等的行距给改了。
 
-```
+```latex
 \linespread{1.3} %一 倍 半 行 距
 \linespread{1.6} %双 倍 行 距
 ```
 
 ② 加载宏包，可以先全局设置，然后再局部设置（推荐）
 
-```
+```latex
 \usepackage{setspace}
 \singlespacing %单 倍 行 距
 \onehalfspacing %一 倍 半 行 距
@@ -144,7 +144,7 @@
 \setstretch{1.25} %任 意 行 距
 ```
 
-```
+```latex
 %局部控制行距
 \begin{doublespacing}
 double\\spacing
@@ -157,7 +157,7 @@ double\\spacing
 
 LATEX 中有三种摘录环境：quote, quotation, verse。quote 两端都缩进，quotation 在 quote 的基础上增加了首行缩进，verse 比 quote多了第二行起的缩进。
 
-```
+```latex
 \begin{quote}
 引文两端\\都缩进。
 \end{quote}
@@ -171,14 +171,14 @@ LATEX 中有三种摘录环境：quote, quotation, verse。quote 两端都缩进
 
 重定义命令中可更改“roman”，阿拉伯数字对应**arabic**；小写英文字母对应**alph**；大写英文字母对应**Alph**；小写罗马数字对应**roman**；大写罗马数字对应**Roman**。
 
-```
+```latex
 \renewcommand{\thefootnote}{\roman{footnote}} %设置脚注格式
 正文\footnote{脚注}%使用footnote命令
 ```
 
 ### 2.6.4 边注
 
-```
+```latex
 %主要是\marginpar 命令
 \marginnote{正常边注}
 \reversemarginpar
@@ -190,7 +190,7 @@ LATEX 中有三种摘录环境：quote, quotation, verse。quote 两端都缩进
 
 %可以用于注释，但是对于大段的注释使用：
 
-```
+```latex
 \begin{comment}
 ...
 \end{comment}
@@ -224,7 +224,7 @@ paralist 宏包提供了一系列压缩列表和行间列表环境。
 
 对齐方式有居中 (缺省) 、居左、居右和分散对齐，分别用 c, l, r,s 来表示。
 
-```
+```latex
 %语法：[宽度][对齐方式]{内容}
 \makebox[100pt][c]{仪仗队}
 \framebox[100pt][s]{仪仗队}
@@ -238,7 +238,7 @@ paralist 宏包提供了一系列压缩列表和行间列表环境。
 
 内部对齐：t——内容贴近盒子上边缘；c——内容居中放置；b——内容贴近盒子下边缘
 
-```
+```latex
 %语法：[外部对齐][高度][内部对齐]{宽度}{内容}
 \fbox{%带外框的盒子
 \parbox[c][36pt][t]{170pt}{
@@ -257,7 +257,7 @@ paralist 宏包提供了一系列压缩列表和行间列表环境。
 
 核心命令：`\label{标识符}` —— 打标签；`\ref{标识符}` —— 引用编号；`\pageref{标识符}` —— 引用页码。只适用于文档内的图、表、公式
 
-```
+```latex
 %例子介绍
 \label{sec:intro}
 如图~\ref{fig:setup}~所示
@@ -270,7 +270,7 @@ paralist 宏包提供了一系列压缩列表和行间列表环境。
 
 补充参考文献的引用：
 
-```
+```latex
 \cite{标签}
 \begin{thebibliography}{99}%中括号内表示
 \bibitem{标签}
@@ -283,7 +283,7 @@ paralist 宏包提供了一系列压缩列表和行间列表环境。
 
 第一种方法：
 
-```
+```latex
 \usepackage[square,super,comma]{natbib}  % 上标 + 方括号 + 多条合并
 ```
 
@@ -295,7 +295,7 @@ paralist 宏包提供了一系列压缩列表和行间列表环境。
 
 推荐采用UTF-8格式，现代引擎XeLaTeX / LuaLaTeX，直接
 
-```
+```latex
 \documentclass{ctexart}   % 已自动支持 UTF-8 编码
 ```
 
@@ -323,7 +323,7 @@ paralist 宏包提供了一系列压缩列表和行间列表环境。
 
 为了加载数学功能，要加载amsmath 宏包。
 
-```
+```latex
 \usepackage{amsmath}
 ```
 
@@ -333,7 +333,7 @@ LATEX 的数学模式有两种形式：行间 (inline) 模式和独立 (display)
 
 行间公式用 \$...\$，无编号独立公式用\\[...\\]。建议不要用 $$...$$，因为它和 AMS‐LATEX 有冲突。**注意：带编号公式里面直接写入公式内容。**
 
-```
+```latex
 %行间公式
 这是一个行内公式：$E = mc^2$，它不会单独占一行。
 %这是一个独立公式：
@@ -349,14 +349,14 @@ E = mc^2
 
 如果公式编号采用**章节+公式序号**类型：可以按照document类型自定义更改section
 
-```
+```latex
 \usepackage{amsmath}
 \numberwithin{equation}{section} % 按 section 编号
 ```
 
 若要改变公式编号the**section**，“-”可以改变连接，\arabic是阿拉伯数字，能换成2.6.3的脚注里的
 
-```
+```latex
 \renewcommand{\theequation}{\thesection-\arabic{equation}}
 %\renewcommand是重定义命令
 %\theequation用于控制公式编号的显示形式
@@ -374,7 +374,7 @@ E = mc^2
 
 指数或上标用 ^ 表示，下标用 _ 表示，根号用 \sqrt 表示。上下标如果多于一个字母或符号，需要用一对 {} 括起来。
 
-```
+```latex
 \[ x_{ij}^2\quad \sqrt{x}\quad \sqrt[3]{x} \]
 ```
 
@@ -382,7 +382,7 @@ E = mc^2
 
 一般分数用 \frac 命令表示；正文中用使用 `\dfrac`可以显得更大；独立公式中希望分数紧凑一点使用 \tfrac。
 
-```
+```latex
 \frac{a}{b}
 \dfrac{a}{b}
 \tfrac{a}{b}
@@ -408,7 +408,7 @@ E = mc^2
 
 各种括号用 ()  []  \{\}  \langle \rangle 等命令表示。因为\\|和|使用随意，引入**amsmath** 宏包用 **\lvert\rvert**和 **\lVert\rVert** 取而代之。可以在上述分隔符前面加 \big \Big \bigg \Bigg 等命令来调整其大小。
 
-```
+```latex
 \usepackage{amsmath}
 \[ \Bigg(\bigg(\Big(\big((x)\big)\Big)\bigg)\Bigg)\quad
 \Bigg[\bigg[\Big[\big[[x]\big]\Big]\bigg]\Bigg]\quad
@@ -426,7 +426,7 @@ E = mc^2
 
 ### 4.2.8 省略号
 
-```
+```latex
 %独立公式
 \[ x_1,x_2,\dots,x_n\quad 1,2,\cdots,n\quad
 \vdots\quad \ddots \]
@@ -448,7 +448,7 @@ E = mc^2
 
 分为无需对齐长公式和对齐长公式
 
-```
+```latex
 %无对齐公式（自带公式编号\begin{equation}）
 \begin{multline}
 x = a+b+c+{} \\
@@ -456,7 +456,7 @@ d+e+f+g
 \end{multline}
 ```
 
-```
+```latex
 %对齐公式（公式编号需要引入\begin{equation}）
 \[ \begin{split}
 x ={} &a+b+c+{} \\
@@ -470,7 +470,7 @@ x ={} &a+b+c+{} \\
 
 不需要对齐的公式组可以使用 **gather** 环境（见 例 4.16），需要对齐的公式组用 **align** 环境（见 例 4.17）。自带生成公式编号，如果需要取消在gather等后面加\*
 
-```
+```latex
 %不需对齐公式组
 \begin{gather}
 a = b+c+d \\
@@ -478,7 +478,7 @@ x = y+z
 \end{gather}
 ```
 
-```
+```latex
 %对齐公式组
 \begin{align}
 a &= b+c+d \\
@@ -490,7 +490,7 @@ x &= y+z
 
 分段函数通常用 cases 次环境写成分支公式
 
-```
+```latex
 \[ y=\begin{cases}
 -x,\quad x\leq 0 \\
 x,\quad x>0
@@ -505,7 +505,7 @@ x,\quad x>0
 
 语法：{环境名}[编号延续]{显示名}[编号层次]
 
-```
+```latex
 %定义环境
 \newtheorem{definition}{定义}[section]
 \newtheorem{theorem}{定理}[section]
@@ -563,7 +563,7 @@ pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较
 
 ### 5.2.2 基本命令
 
-```
+```latex
 %加载图形宏包 graphicx
 \usepackage{graphicx}
 %插入图片并手动指定其边界框
@@ -586,7 +586,7 @@ pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较
 
 **htbp** 选项用来指定插图的理想位置，这几个字母分别代表 **here**, **top**, **bottom**, **float page**，也就是就这里、页顶、页尾、浮动页 (专门放浮动环境的单独页面) 。**可以使用这几个字母的任意组合，一般不单独使用h**。
 
-```
+```latex
 \begin{figure}[htbp]%图片竖直位置
 \centering%居中
 \includegraphics{myphoto.jpg}
@@ -597,7 +597,7 @@ pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较
 
 **公式、图、表的自定义编号：第一步按照标题层次编号，然后自定义编号的样式**
 
-```
+```latex
 %公式自定义编号
 \numberwithin{equation}{section} % 按 section 编号
 \renewcommand{\theequation}{\thesection-\arabic{equation}}
@@ -611,7 +611,7 @@ pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较
 
 调整编号类型，以表格为例子：labelformat控制标签（编号）显示的格式，default 是默认设置，它会使用标准的编号格式，通常会显示表格编号或图像编号后跟一个冒号，你可以根据需要将其设置为其他选项，如 parens（括号格式）等。`labelsep` 控制标签与标题文本之间的分隔符，其他常用的 `labelsep` 选项包括：`colon`插入冒号。`period`插入句号。`none不插入任何分隔符。
 
-```
+```latex
  \usepackage{caption}  % 需要添加这个宏包用于引用
  \captionsetup[table]{labelformat=default, labelsep=space}
 ```
@@ -622,7 +622,7 @@ pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较
 
 使用两个 \includegraphics 命令
 
-```
+```latex
 \begin{figure}[htbp]
 2 \centering
 \includegraphics{left.pdf}
@@ -635,7 +635,7 @@ pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较
 
 可以在 figure 环境中使用两个 minipage 环境，相当于figure环境下嵌套minipage~~~~
 
-```
+```latex
 \begin{figure}[htbp]
 \centering
 \begin{minipage}{60pt}
@@ -654,7 +654,7 @@ pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较
 
 出现问题：图注字数多会换行，这与minipage设置太小有关；图注不水平对齐，这与图片高度不同和 minipage 对齐基线的方式有关
 
-```
+```latex
 %minipage用法
 \begin{minipage}[<位置对齐>][<总高度>][<内部对齐>]{<宽度>}
   ...内容...
@@ -670,7 +670,7 @@ pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较
 
 #### 并排摆放，共享标题，各有子标题
 
-```
+```latex
 \usepackage{subcaption}
 
 \begin{figure}[htbp]
@@ -701,7 +701,7 @@ pdflatex和 xelatex 的用户可以跳过本小节，因为它们出现的比较
 
 tabular 环境提供了最简单的表格功能。它用 \hline 命令表示横线，| 表示竖线；用 & 来分列，用 \\ 来换行；每列可以采用居左、居中、居右等横向对齐方式，分别用 l, c, r 来表示。
 
-```
+```latex
 \begin{tabular}{|l|c|r|}%这里表示三列，每列用|分开，l，c，r表示每列单元格的对齐方式
 \hline
 操作系统 & 发行版 & 编辑器 \\
@@ -727,7 +727,7 @@ t表示表格的**上边缘**会对齐到文字的**上方**。比如“文字1 
 
 \caption放在大环境内，表格环境外，然后放的位置在表格哪里最后表注就是在哪里。
 
-```
+```latex
 \usepackage{booktabs}%引入宏包
 \begin{table}[htbp]
 \caption{操作系统}
@@ -752,13 +752,13 @@ macOS & MacTeX & TeXShop \\
 
 有时我们需要控制某列的宽度，可以将其对齐方式参数从 l, c, r 改为 p{宽度}。
 
-```
+```latex
 \begin{tabular}{p{80pt}p{80pt}p{80pt}}
 ```
 
 这时对齐方式缺省(默认左对齐),用前置命令\>{} 配合 \centering, \raggedleft 命令来把横向对齐方式改成居中或居右，`\arraybackslash` → 让 `\\` 不出错
 
-```
+```latex
 \begin{tabular}{p{80pt}>{\centering}p{80pt}>{\raggedleft\arraybackslash}p{80pt}}
 ```
 
@@ -768,7 +768,7 @@ macOS & MacTeX & TeXShop \\
 
 语法：\cmidrule{起始列-结束列}
 
-```
+```latex
 \usepackage{booktabs}
 \begin{table}[htbp]
 \centering
@@ -793,9 +793,8 @@ macOS & MacTeX & TeXShop \\
 
 语法：P{-m.n}其中 m 和 n 分别是小数点前后的位数，数字前负号可选
 
-```
+```latex
 \usepackage{warpcol}
-
 ```
 
 ## 9.5 长表格

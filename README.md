@@ -50,3 +50,5 @@ __初始化仓库：git init     cd ”路径”→ →删除仓库：rm \-rf \.
 拉取仓库：git pull origin main
 
 删除文件：[删除文件链接](https://liaoxuefeng.com/books/git/time-travel/delete/index.html)
+
+![](./images/2025-10-30-18-38-25-image.png)
