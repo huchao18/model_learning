@@ -806,3 +806,66 @@ macOS & MacTeX & TeXShop \\
 把表格方向换一下
 
 ## 9.7 彩色表格
+
+
+
+# 附加
+
+取消页码，放在document后面
+
+```latex
+\pagestyle{empty}
+```
+
+生成论文封面：
+
+```latex
+\documentclass[a4paper,UTF8]{ctexart}
+\usepackage[a4paper,top=2.54cm,bottom=2.54cm,left=3.17cm,right=3.17cm]{geometry} % 页面边距
+\usepackage{array}
+
+\begin{document}
+\pagestyle{empty} % 去掉页眉页脚
+
+% ===== 顶部校名 =====
+\begin{center}
+{\zihao{-2}\heiti \textbf{\makebox[5.3cm][s]{西 南 交 通 大 学}}}\\[0.5cm]
+{\zihao{-2}\heiti \textbf{硕士研究生选题报告}}
+\end{center}
+
+\vspace{5cm} % 调整标题与信息栏之间的距离
+
+% ===== 信息栏 =====
+{\zihao{-3}\songti
+\renewcommand{\arraystretch}{1.5} % 调整行距
+\setlength{\tabcolsep}{10pt}       % 调整列间距
+
+\noindent
+\hspace*{2cm} % 整体右移（正值），左移（负值）
+\begin{tabular}{p{2.15cm} p{0.6\textwidth}} % 左列固定 3cm，右列占正文宽度的 60%
+姓 \hfill 名 & \underline{\makebox[0.6\textwidth][c]{胡仕超}} \\
+学 \hfill 号 & \underline{\makebox[0.6\textwidth][c]{2024200245}} \\
+专 \hfill 业 & \underline{\makebox[0.6\textwidth][c]{机械工程}} \\
+导 \hfill 师 & \underline{\makebox[0.6\textwidth][c]{孟祥印}} \\
+学 \hfill 院 & \underline{\makebox[0.6\textwidth][c]{机械工程学院}} \\
+研\hfill 究 \hfill 方\hfill 向 & \underline{\makebox[0.6\textwidth][c]{机器人与机器视觉}} \\
+论\hfill 文\hfill 题\hfill 目 & \underline{\makebox[0.6\textwidth][c]{面向接触网整体吊弦}} \\
+           & \underline{\makebox[0.6\textwidth][c]{感知定位抓取的关键技术研究}} \\
+\end{tabular}
+}
+\vspace{3cm} % 调整信息栏与日期之间距离
+
+% ===== 页底日期 =====
+\begin{center}
+{\zihao{4}\songti 年 \quad \quad 月 \quad \quad 日}
+\vfill % 占据剩余垂直空间，将下方内容推到底
+{\zihao{-4}\songti 研究生院制表}
+\end{center}
+
+
+
+
+
+\end{document}
+
+```
