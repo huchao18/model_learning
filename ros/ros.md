@@ -128,26 +128,21 @@ sudo docker run -it \
  sudo docker commit ros2 ros2_backup  #现在容器名 新镜像名字
 ```
 
-映射摄像机进入容器：
+映射摄像机进入容器：反斜杠后面不能有空格
 
 ```bash
 sudo docker run -it \
-  --name ros2 \                 # 容器名称：ros2（方便后续 start/stop）
-  --env DISPLAY=$DISPLAY \      # 把宿主机的 DISPLAY 环境变量传入容器，用于 X11 图形界面显示
-  --env QT_X11_NO_MITSHM=1 \    # 解决 Qt 应用与 X11 共享内存冲突的问题（常用于 ROS、RViz）
-  -v /tmp/.X11-unix:/tmp/.X11-unix \  # 把宿主机的 X11 socket 挂载进去，让容器能访问 X server
-  -v /home/xavier/hsc/ros2/:/root/ros2 \  # 挂载宿主机目录到容器 /root/ros2（共享代码、数据）
-  --net=host \                  # 让容器使用宿主机网络（ROS 多节点通信推荐使用）
+  --name ros2 \
+  --env DISPLAY=$DISPLAY \
+  --env QT_X11_NO_MITSHM=1 \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v /home/xavier/hsc/ros2/:/root/ros2 \
+  --net=host \
   --privileged \
-  --device=/dev/video0 \
-  --device=/dev/video1 \
-  --device=/dev/video2 \
-  --device=/dev/video3 \
-  --device=/dev/video4 \
-  --device=/dev/video5 \
+  --device /dev/bus/usb:/dev/bus/usb \
+  --device-cgroup-rule='c 81:* rmw' \
   ros2_backup \
   bash
-
 ```
 
 # 代理
@@ -602,8 +597,6 @@ def main():
     node.download_novel('http://localhost:8000/novel1.txt') #订阅（注意文件名一致） # 下载小说文本到队列
     rclpy.spin(node)                             # 让节点持续运行，保持定时发布
     rclpy.shutdown()                             # 节点关闭后，关闭 ROS2
-
-
 ```
 
 创建小说文件（如novel.txt）→启动一个本地HTTP服务器→进入到文件目录→python3 -m http.server 8000
@@ -707,7 +700,7 @@ ros2 launch aubo_i5_simulation display.launch.py
 
 ROS 的本质是一个**标准化的机器人软件框架**，它负责把机器人各个**模块**（传感器、算法、控制器）通过统一**通信机制**连接起来，让你能像搭积木一样搭建机器人系统。
 
-## 核心概念：
+## 核心概念：[基本命令](https://book.guyuehome.com/ROS2_Book/1.ROS2%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/ROS2%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%EF%BC%9A%E6%9E%84%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E5%9F%BA%E7%9F%B3/)
 
 ### ① 工作空间
 
@@ -833,8 +826,6 @@ subscriber = create_subscription(String, "chatter", callback, 10)#创建订阅�
 
 服务通信模型中，服务器端唯一，但客户端可以不唯一。
 
-
-
 ### ⑥ 通信接口（接口包实际上也是功能包，所以和功能包同一级）
 
 在ROS系统中，无论**话题**还是**服务**，或者我们后续将要学习的动作，都会用到一个重要的概念——**通信接口**
@@ -850,8 +841,8 @@ subscriber = create_subscription(String, "chatter", callback, 10)#创建订阅�
 - 服务通信接口的定义使用的是**\.srv文件**，包含**请求**和**应答**两部分定义，通过中间的“**---**”区分，比如之前我们学习的加法求和功能，请求数据是两个64位整型数a和b，应答是求和的结果sum。
 
 - 动作是另外一种通信机制，用来描述机器人的一个运动过程，使用.action文件定义，比如我们让小海龟转90度，一边转一边周期反馈当前的状态，此时接口的定义分成了三个部分，分别是动作的目标，比如是开始运动，运动的结果，最终旋转的90度是否完成，还有一个周期反馈，比如每隔1s反馈一下当前转到第10度、20度还是30度了，让我们知道运动的进度。
-
- 生成接口功能包：
+  
+  生成接口功能包：
 
 ```bash
 #进入cd ~/your_ws/src #进入工作空间下的src文件夹
@@ -915,8 +906,6 @@ package.xml模板，只需要每次改包名
   <member_of_group>rosidl_interface_packages</member_of_group>
 
 </package>
-
-
 ```
 
 ### ⑦ 动作（第三种通信机制）
@@ -945,11 +934,9 @@ int32 state     # 定义动作的反馈，表示当前执行到的位置
 
 例子：继续优化机器视觉的示例，物体识别对光线比较敏感，不同的环境大家使用的阈值也是不同的，每次在代码中修改阈值还挺麻烦，不如我们就把阈值提炼成参数，运行过程中就可以动态设置，不是大大提高了程序的易用性么？
 
-
-
 # 常用工具：
 
-### ① Launch
+### ① Launch[Launch 古月居讲解](https://book.guyuehome.com/ROS2/3.%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/3.1_Launch/)
 
 每当我们运行一个ROS节点，都需要打开一个新的终端运行一个命令。一种方式可以一次性启动所有节点，那就是**Launch启动文件**，它是ROS系统中多节点启动与配置的一种脚本。
 
@@ -991,6 +978,10 @@ def generate_launch_description():        # 自动生成launch文件的函数
     ])
 ```
 
+### ②TF——坐标管理神器
+
+在机械臂形态的机器人中，机器人安装的位置叫做**基坐标系**Base Frame，机器人安装位置在外部环境下的参考系叫做**世界坐标系**World Frame，机器人末端夹爪的位置叫做**工具坐标系**，外部被操作物体的位置叫做**工件坐标系**，在机械臂抓取外部物体的过程中，这些坐标系之间的关系也在跟随变化。
+
 ## D435i相机连接
 
 首先新建容器要将视频设备映射进容器
@@ -1004,109 +995,11 @@ apt install -y ros-humble-realsense2-camera #安装驱动
 ros2 launch realsense2_camera rs_launch.py 
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+列举video设备：
+
+```bash
+ls /dev/video*
+```
 
 # ROS臂开发与实战
 
